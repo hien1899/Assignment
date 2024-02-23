@@ -1,0 +1,86 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+
+package com.example.user;
+
+message MessageResponse{
+    int32 code = 1;
+    string message = 2;
+    string time = 3;
+}
+
+message MessageListResponse {
+    repeated MessageResponse messageResponses = 1;
+}
+
+message FindUserByIdRequest {
+    int32 userId= 1;
+}
+
+message FindUserByNameRequest {
+    string name = 1;
+    string field = 2;
+}
+
+message FindUserByDobRequest {
+    string beginDate = 1;
+    string endDate = 2;
+}
+
+message NewUserRequest {
+    string lName = 1;
+    string fName = 2;
+    int32 age = 3;
+    string dob = 4;
+}
+
+message NewUserListRequest{
+    repeated NewUserRequest newUserRequest = 1;
+}
+
+message DeleteUserRequest {
+    int32 userId = 1;
+}
+
+message DeleteUserListRequest {
+    repeated DeleteUserRequest deleteUserRequests = 1;
+}
+
+message UserDetail {
+    int32 userId= 1;
+    string lName = 2;
+    string fName = 3;
+    int32 age = 4;
+    string dob = 5;
+}
+
+message UserDetailsList {
+    repeated UserDetail userDetail= 1;
+}
+
+message UpdateUserRequest {
+    int32 userId= 1;
+    string lName = 2;
+    string fName = 3;
+    int32 age = 4;
+    string dob = 5;
+}
+
+message UpdateUserListRequest {
+    repeated UpdateUserRequest updateUserRequest= 1;
+}
+
+
+
+service UserService {
+    rpc findUserById(FindUserByIdRequest) returns (UserDetail);
+    rpc findUserByName(FindUserByNameRequest) returns (UserDetailsList);
+    rpc findUserByDob(FindUserByDobRequest) returns (UserDetailsList);
+    rpc createUser(NewUserRequest) returns (MessageResponse);
+    rpc createMultipleUser(NewUserListRequest) returns (stream MessageResponse);
+    rpc deleteUser(DeleteUserRequest) returns (MessageResponse);
+    rpc deleteMultipleUser(DeleteUserListRequest) returns (MessageListResponse);
+    rpc updateUser(UpdateUserRequest) returns (MessageResponse);
+    rpc updateMultipleUser(UpdateUserListRequest) returns (MessageListResponse);
+}
